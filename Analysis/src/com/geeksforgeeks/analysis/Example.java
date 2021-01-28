@@ -1,21 +1,67 @@
 package com.geeksforgeeks.analysis;
 
+import java.util.ArrayList;
+
 public class Example {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		int n = 1234;
-		System.out.println(countDigits(n));
-		System.out.println(recursiveCountDigits(n));
-		System.out.println(checkPalindrome(123213));
-		//System.out.println(recursionReverse(1234));
-		System.out.println(factorial(10));
-		System.out.println(recursiveFactorial(10));
-		System.out.println(trailingZeroesForFactortial(100));
-		System.out.println(calculateGcd(203234, 16524234));
-		System.out.println(checkPrime(31));
+//		System.out.println(countDigits(n));
+//		System.out.println(recursiveCountDigits(n));
+//		System.out.println(checkPalindrome(123213));
+////		System.out.println(recursionReverse(1234));
+		System.out.println(factorial(1000));
+//		System.out.println(recursiveFactorial(10));
+//		System.out.println(trailingZeroesForFactortial(100));
+//		System.out.println(calculateGcd(203234, 16524234));
+//		System.out.println(checkPrime(31));
+//		printPrimeFactors(84);
+//		printDivisors(15);
+//		printSortedDivisor(15);
+//		primeNumbersUpTo(25);sieveUpto(25);
+//		System.out.println();
+//		System.out.println(powRecursive(2,9));
+//		System.out.println(powIterative(2,9));
+//		System.out.println(cToF(48));
+//		System.out.println(quadraticRoots(752,904,164));
+//		System.out.println(isPlaindrome("abba"));
 	}
-	
+	public static int isPlaindrome(String S) {
+		int j = S.length()-1;
+        for(int i = 0;i<S.length()/2;i++,j--) {
+        	if(S.charAt(i)!=S.charAt(j)) 
+        		return 0;
+        }
+        return 1;
+    }
+	 public static ArrayList<Integer> quadraticRoots(int a, int b, int c){
+		 double d = b*b-4*a*c;
+		 ArrayList<Integer> al = new ArrayList<Integer>();
+		 if(d<0) {
+			 al.add(-1);
+			 return al;
+		 }
+		 if(d==0) {
+			 al.add(-b/(2*a));
+			 al.add(-b/(2*a));
+			 return al;
+		 }
+		 int r1 = (int) Math.floor((-b+Math.sqrt(d))/(2*a)) ;
+		 int r2 = (int) Math.floor((-b-Math.sqrt(d))/(2*a)) ;
+		 if(r1>r2) {
+			 al.add(r1);
+			 al.add(r2);
+		 }else {
+			 al.add(r2);
+			 al.add(r1);
+		 }
+		 return al;
+	 }
+	 public static double cToF(int C)
+	    {
+	        return C*9/5+32;
+	    }
 	public static int countDigits(int n) {
 		int count = 0;
 		while(n!=0) {
@@ -52,8 +98,8 @@ public class Example {
 		}
 		return sum;
 	}
-	static int num = 1;
-	static int base = 1;
+//	static int num = 1;
+//	static int base = 1;
 //	public static int recursiveReverse(int n) {
 //		if(n<0) {
 //			return 0;
@@ -65,8 +111,8 @@ public class Example {
 //			return num;
 //		}
 //	}
-	public static long factorial(int n) {
-		long result = 1;
+	public static double factorial(int n) {
+		double result = 1;
 		for(int i = 2;i<=n;i++) {
 			result = result*i;
 		}
@@ -132,11 +178,138 @@ public class Example {
 		if(a%2==0||a%3==0) {
 			return false;
 		}
-		for (int i = 5;i*i<a;i=i+6) {
+		for (int i = 5;i*i<=a;i=i+6) {
 			if(a%i==0||a%(i+2)==0) {
 				return false;
 			}
 		}
 		return true;
+	}
+	//5 7 11 13 17 19 23 25 29 31 35 37 41 43 47 49 53 55 59 61 65 67 71 73 77 79 83 85 89 91 95 97 101
+	public static void printPrimeFactors(int n) {
+		if (checkPrime(n)) {
+			System.out.println(n);
+		}else {
+			while(n%2==0||n%3==0) {
+				if(n%2==0) {
+					System.out.print(2+" ");
+					n=n/2;
+					continue;
+				}
+				if(n%3==0) {
+					System.out.print(3+" ");
+					n=n/3;
+				}
+			}
+			for(int i = 5;i*i<=n;i=i+6) {
+				while(n%i==0||n%(i+2)==0) {
+					if(n%i==0) {
+						n = n/i;
+						System.out.print(i+" ");
+						continue;
+					}
+					if(n%(i+2)==0) {
+						n = n/(i+2);
+						System.out.print((i+2)+" ");
+					}
+				}
+			}
+			if(n>3) {
+				System.out.println(n);
+			}
+		}
+	}
+	
+	public static void printDivisors(int n) {
+		int i;
+		for(i = 1;i*i<n;i++) {
+			if(n%i==0) {
+				System.out.print(i+" ");
+			}
+		}
+		for(;i>=1;i--) {
+			if(n%i==0) {
+				System.out.print((n/i)+" ");
+			}
+		}
+		System.out.println();
+	}	
+	static int mult = 1;
+	public static void printSortedDivisor(int n) {
+		mult = 1;
+		recursivePrintDivisors(n);
+		System.out.println();
+	}
+	
+	private static void recursivePrintDivisors(int n) {
+		if(mult*mult>n) {
+			return;
+		}else {
+			int temp = 0;
+			if(n%mult==0) {
+				System.out.print(mult+" ");
+				temp = n/mult;
+			}
+			if(temp==mult) {
+				temp = 0;
+			}
+			mult++;
+			recursivePrintDivisors(n);
+			if(temp!=0)
+				System.out.print(temp+" ");
+		}
+	}
+	public static void primeNumbersUpTo(int n) {
+		if(n<1) {
+			return;
+		}
+		if(n>2) {
+			System.out.print(2+" "+3+" ");
+		}
+		for(int i = 5;i<=n;i=i+6) {
+			if(checkPrime(i)) {
+				System.out.print(i+" ");
+			}
+			if(checkPrime(i+2)) {
+				System.out.print((i+2)+" ");
+			}
+		}
+		System.out.println();
+	}
+	public static void sieveUpto(int n) {
+		boolean [] arr = new boolean[n+1];
+		for(int i =2;i<arr.length;i++) {
+			arr[i] = true;
+		}
+		for(int i = 2;i<=n;i++) {
+			if(arr[i]) {
+				System.out.print(i+" ");
+				for(int j = i*i;j<arr.length;j=j+i) {
+					arr[j] = false;
+				}
+			}
+		}
+	}
+	public static int powRecursive(int base,int pow) {
+		if(pow==0)
+			return 1;
+		if(pow==1)
+			return base;
+		else {
+			return powRecursive(base,pow/2)*powRecursive(base,(pow-(pow/2)));
+		}
+	}
+	public static int powIterative(int base,int pow) {
+		int result = 1;
+		int b1 = pow;
+		int base_mul = base;
+		while(b1!=0) {
+			if(b1%2!=0) {
+				result = result*base_mul;
+			}
+			b1 = b1/2;
+			base_mul = base_mul*base_mul;
+		}
+		return result;
 	}
 }
