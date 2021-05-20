@@ -22,7 +22,7 @@ public class Recursion {
 		System.out.println(maxRopeCut(23, 11, 9, 12));
 		System.out.println(maxRopeCut(5, 2, 5, 1));
 		System.out.println(maxRopeCut(9, 2, 2, 2));
-		generateSubset("ABC","",0);
+		TowerOfHanoi(4, 'A', 'B', 'C');
 	}
 
 	public static void printReverse(int n) {
@@ -76,6 +76,7 @@ public class Recursion {
 		}
 	}
 
+	// Tail call recursion
 	static int mul = 1;
 
 	public static int factorialTail(int n) {
@@ -97,10 +98,8 @@ public class Recursion {
 	}
 
 	public static int fibonacciNth(int n) {
-		if (n == 0)
-			return 0;
-		if (n == 1)
-			return 1;
+		if (n == 0 || n == 1)
+			return n;
 		else {
 			return fibonacciNth(n - 1) + fibonacciNth(n - 2);
 		}
@@ -164,15 +163,34 @@ public class Recursion {
 				return 1 + result;
 		}
 	}
-	
-	public static void generateSubset(String s,String current, int index){
-		if(index == s.length()) {
-			System.out.print(current+" ");
+
+	public static void subSequence(String s) {
+		generateSubset("ABC", "", 0);
+	}
+
+	// subset and subsequence are same;
+	private static void generateSubset(String s, String current, int index) {
+		if (index == s.length()) {
+			System.out.print(current + " ");
 			return;
-		}else {
-			generateSubset(s,current,index+1);
-			generateSubset(s,current+s.charAt(index),index+1);
+		} else {
+			generateSubset(s, current, index + 1);
+			generateSubset(s, current + s.charAt(index), index + 1);
 		}
+
+	}
+
+	public static void TowerOfHanoi(int n, char A, char B, char C) {
+		if (n == 1) {
+			System.out.println("Move " + n + " " + A + " " + "to " + C);
+		} else {
+			TowerOfHanoi(n - 1, A, C, B);
+			System.out.println("Move " + n + " " + A + " " + "to " + C);
+			TowerOfHanoi(n - 1, B, C, A);
+		}
+	}
+
+	public static void subsetSum(int[]arr,int count,int sum) {
 		
 	}
 }
