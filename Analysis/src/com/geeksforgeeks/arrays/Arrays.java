@@ -35,7 +35,78 @@ public class Arrays {
 		printFrequencySortedArray(arr);
 		arr = new int[] { 1, 5, 3, 1, 2, 8 };
 		System.out.println("stock buy sell " + stockBuySell(arr));
+		arr = new int[] { 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 };
+		System.out.println("max consecutive ones " + maxConsecutiveOnes(arr));
+		arr = new int[] { -5, 1, -2, 3, -1, 2, -2 };
+		System.out.println("longesConsecutiveSubArray " + longestConsecutiveSubArray(arr));
+		System.out.println("longestConsecutiveSubArraySecond " + longestConsecutiveSubArraySecond(arr));
+		arr = new int[] { 1, 2, 3, 4 };
+		System.out.print("printSubArray ");
+		printSubArray(arr);
+	}
 
+	public static int longestConsecutiveSubArraySecond(int[] arr) {
+		int[] arr1 = new int[arr.length];
+		arr1[0] = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			if ((arr1[i - 1] + arr[i]) > arr[i]) {
+				arr1[i] = arr1[i - 1] + arr[i];
+			} else {
+				arr1[i] = arr[i];
+			}
+		}
+		return arr1[findMax(arr1)];
+	}
+
+	public static int longestConsecutiveSubArray(int[] arr) {
+		int final_max = arr[0];
+		int instance_max = 0;
+		for (int i = 0; i < arr.length; i++) {
+			instance_max = arr[i];
+			int sum = arr[i];
+			for (int j = i + 1; j < arr.length; j++) {
+				sum = sum + arr[j];
+				if (sum > instance_max) {
+					instance_max = sum;
+				}
+			}
+			if (instance_max > final_max)
+				final_max = instance_max;
+		}
+		return final_max;
+	}
+
+	public static void printSubArray(int[] arr) {
+		for (int i = 1; i <= arr.length; i++) {
+			for (int j = 0; j < arr.length; j++) {
+				if ((j + i) <= arr.length) {
+					System.out.print("[ ");
+					for (int k = j; k < (j + i); k++) {
+						System.out.print(arr[k] + " ");
+					}
+					System.out.print("]");
+					System.out.print(" ");
+				}
+			}
+		}
+		System.out.println();
+	}
+
+	public static int maxConsecutiveOnes(int[] arr) {
+		int result = 0;
+		int count = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] == 1) {
+				count++;
+			} else {
+				if (count > result)
+					result = count;
+				count = 0;
+			}
+		}
+		if (count > result)
+			result = count;
+		return result;
 	}
 
 	public static int stockBuySell(int[] arr) {
@@ -160,15 +231,18 @@ public class Arrays {
 	}
 
 	public static int removeDuplicatesSorted(int[] arr) {
-		int size = arr.length;
-		int prev = 0;
+		if (arr.length < 2) {
+			return arr.length;
+		}
+		int prev = arr[0];
+		int size = 0;
 		for (int i = 1; i < arr.length; i++) {
-			if (arr[prev] == arr[i]) {
-				size--;
+			if (prev == arr[i]) {
+				size++;
 			} else {
-				arr[arr.length - size] = arr[i];
+				arr[i - size] = arr[i];
 			}
-			prev = i;
+			prev = arr[i];
 		}
 		return size;
 	}
@@ -267,5 +341,4 @@ public class Arrays {
 		System.out.println();
 	}
 
-	
 }
