@@ -13,7 +13,108 @@ public class PracticeArrays {
 		arr = new int[] { 10, 20, 0, 0, 0, 0, 0, 0, 0, 30, 40, 0, 0, 0, 0, 0, 0, 50 };
 		moveZeroesToEndSecond(arr);
 		displayArray(arr);
+		arr = new int[] { 16, 17, 4, 3, 5, 2 };
+		printLeaders(arr);
+		arr = new int[] { 7, 9, 5, 6, 3, 2 };
+		System.out.println("findMaxdifference " + findMaxdifferenceSecond(arr));
+		arr = new int[] { 1, 1, 1, 2, 3, 3, 5, 5, 8, 8, 8, 9, 9, 10 };
+		System.out.println("printFrequencySortedArray");
+		printFrequencySortedArray(arr);
+		arr = new int[] { 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 };
+		System.out.println("max consecutive ones " + maxConsecutiveOnes(arr));
+		arr = new int[] {2, 3, 4, 5, 7 };
+		System.out.println("longestConsecutiveSubArray " + longestConsecutiveSubArray(arr));
+	}
 
+	public static int longestConsecutiveSubArray(int[] arr) {
+		int final_max = arr[0];
+		int max = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] + max > arr[i]) {
+				max = arr[i] + max;
+			} else {
+				max = arr[i];
+			}
+			if (max > final_max) {
+				final_max = max;
+			}
+		}
+		return final_max;
+	}
+
+	public static int maxConsecutiveOnes(int[] arr) {
+		int count = 0;
+		int max = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] == 1) {
+				count++;
+			} else {
+				if (count > max)
+					max = count;
+				count = 0;
+			}
+		}
+		return max;
+	}
+
+	public static void printFrequencySortedArray(int[] arr) {
+		int prev = arr[0];
+		int count = 1;
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] == prev) {
+				count++;
+			} else {
+				System.out.println(prev + " -> " + count);
+				count = 1;
+			}
+			prev = arr[i];
+		}
+		System.out.println(prev + " -> " + count);
+	}
+
+	public static int findMaxdifferenceSecond(int[] arr) {
+		int max_dif = arr[1] - arr[0];
+		int min = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			max_dif = Math.max(max_dif, arr[i] - min);
+			if (arr[i] < min)
+				min = arr[i];
+		}
+		return max_dif;
+	}
+
+	public static int findMaxdifference(int[] arr) {
+		int min_index = 0;
+		int max_index = 1;
+		int max_dif = arr[max_index] - arr[min_index];
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] > arr[max_index]) {
+				max_index = i;
+			}
+			if (arr[i] < arr[min_index]) {
+				min_index = i;
+			}
+			if (max_index > min_index) {
+				int result = arr[max_index] - arr[min_index];
+				if (result > max_dif) {
+					max_dif = result;
+				}
+			}
+		}
+		return max_dif;
+	}
+
+	public static void printLeaders(int[] arr) {
+		int max = arr[arr.length - 1];
+		System.out.print(max + " ");
+		for (int i = arr.length - 1; i >= 0; i--) {
+			if (arr[i] > max) {
+				max = arr[i];
+				System.out.print(max + " ");
+
+			}
+		}
+		System.out.println();
 	}
 
 	public static void moveZeroesToEndSecond(int[] arr) {

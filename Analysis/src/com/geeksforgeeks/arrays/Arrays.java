@@ -18,6 +18,7 @@ public class Arrays {
 		printLeader(arr);
 		System.out.println("reverse");
 		reverse(arr);
+		displayArray(arr);
 		arr = new int[] { 10, 10, 20, 20, 30, 30, 30, 30 };
 		System.out.println("remove duplicates");
 		int size = removeDuplicatesSorted(arr);
@@ -38,14 +39,134 @@ public class Arrays {
 		arr = new int[] { 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 };
 		System.out.println("max consecutive ones " + maxConsecutiveOnes(arr));
 		arr = new int[] { -5, 1, -2, 3, -1, 2, -2 };
-		System.out.println("longesConsecutiveSubArray " + longestConsecutiveSubArray(arr));
-		System.out.println("longestConsecutiveSubArraySecond " + longestConsecutiveSubArraySecond(arr));
+		System.out.println("maxSubArray " + maxSubArray(arr));
+		System.out.println("maxSubArraySecond " + maxSubArraySecond(arr));
 		arr = new int[] { 1, 2, 3, 4 };
 		System.out.print("printSubArray ");
 		printSubArray(arr);
+		arr = new int[] { 5, 10, 20, 6, 3, 8 };
+		System.out.println("maxLengthEvenOddSubbArray " + maxLengthEvenOddSubbArray(arr));
+		arr = new int[] { -5, -2, -3, -4 };
+		System.out.println("maxSumSubarrayCircular " + maxSumSubarrayCircular(arr));
+		System.out.println("maxSumSubarrayCircularSecond " + maxSumSubarrayCircularSecond(arr));
+		System.out.println("minSubArray " + minSubArray(arr));
+		arr = new int[] { 8, 7, 6, 8, 6, 6, 6, 6 };
+		System.out.println("majorityElement " + majorityElement(arr));
+
 	}
 
-	public static int longestConsecutiveSubArraySecond(int[] arr) {
+	public static int majorityElement(int[] arr) {
+		int majority_count = 0;
+		int majority_index = 0;
+		for (int i = 0; i < arr.length; i++) {
+			int instance_count = 0;
+			for (int j = 0; j < arr.length; j++) {
+				if (arr[i] == arr[j])
+					instance_count++;
+			}
+			if (instance_count > majority_count) {
+				majority_count = instance_count;
+				majority_index = i;
+			}
+		}
+		System.out.println(majority_index);
+		if (majority_count > arr.length / 2)
+			return arr[majority_index];
+		else
+			return -1;
+	}
+
+	public static int maxSumSubarrayCircularSecond(int[] arr) {
+		int normal_max = maxSubArraySecond(arr);
+		int sum_arr = arrSum(arr);
+		int min_max = minSubArray(arr);
+		int sum_circular = sum_arr - min_max;
+		if (normal_max < 0)
+			return normal_max;
+		if (normal_max > sum_circular) {
+			return normal_max;
+		}
+		return sum_circular;
+	}
+
+	public static int arrSum(int[] arr) {
+		int sum = 0;
+		for (int i = 0; i < arr.length; i++) {
+			sum = sum + arr[i];
+		}
+		return sum;
+	}
+
+	public static int minSubArray(int[] arr) {
+		int final_min = arr[0];
+		int min = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			if ((arr[i] + min) < arr[i]) {
+				min = arr[i] + min;
+			} else {
+				min = arr[i];
+			}
+			if (min < final_min) {
+				final_min = min;
+			}
+		}
+		return final_min;
+	}
+
+	public static int minSumSubArray(int[] arr) {
+		int result = arr[0];
+		int max = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			max = max + arr[i];
+			if (max < arr[i]) {
+				max = arr[i];
+			}
+		}
+		return result;
+	}
+
+	public static int maxSumSubarrayCircular(int[] arr) {
+		int final_max = arr[0];
+		for (int i = 0; i < arr.length; i++) {
+			int max = arr[i];
+			int sum = arr[i];
+			int current_index = i + 1;
+			int j = 1;
+			while (j < arr.length) {
+				current_index = current_index % (arr.length);
+				sum = sum + arr[current_index];
+				if (sum > max)
+					max = sum;
+				current_index++;
+				j++;
+			}
+			if (max > final_max)
+				final_max = max;
+		}
+		return final_max;
+	}
+
+	public static int maxLengthEvenOddSubbArray(int[] arr) {
+		int max_length = 1;
+		int prev = arr[0];
+		int count = 1;
+		for (int i = 1; i < arr.length; i++) {
+			if (((prev & 1) == 1) && ((arr[i] & 1) == 0)) {
+				count++;
+			} else if (((prev & 1) == 0) && ((arr[i] & 1) == 1)) {
+				count++;
+			} else {
+				count = 1;
+			}
+			if (count > max_length)
+				max_length = count;
+			prev = arr[i];
+		}
+
+		return max_length;
+	}
+
+	public static int maxSubArraySecond(int[] arr) {
 		int[] arr1 = new int[arr.length];
 		arr1[0] = arr[0];
 		for (int i = 1; i < arr.length; i++) {
@@ -58,7 +179,7 @@ public class Arrays {
 		return arr1[findMax(arr1)];
 	}
 
-	public static int longestConsecutiveSubArray(int[] arr) {
+	public static int maxSubArray(int[] arr) {
 		int final_max = arr[0];
 		int instance_max = 0;
 		for (int i = 0; i < arr.length; i++) {
