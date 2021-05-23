@@ -22,8 +22,9 @@ public class PracticeArrays {
 		printFrequencySortedArray(arr);
 		arr = new int[] { 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 };
 		System.out.println("max consecutive ones " + maxConsecutiveOnes(arr));
-		arr = new int[] {2, 3, 4, 5, 7 };
+		arr = new int[] { 2, 3, 4, 5, 7 };
 		System.out.println("longestConsecutiveSubArray " + longestConsecutiveSubArray(arr));
+
 	}
 
 	public static int longestConsecutiveSubArray(int[] arr) {
