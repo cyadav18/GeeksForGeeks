@@ -24,7 +24,41 @@ public class PracticeArrays {
 		System.out.println("max consecutive ones " + maxConsecutiveOnes(arr));
 		arr = new int[] { 2, 3, 4, 5, 7 };
 		System.out.println("longestConsecutiveSubArray " + longestConsecutiveSubArray(arr));
+		arr = new int[] { 1, 2, 3, 4 };
+		printSubArray(arr);
+		printSubArrayCircular(arr);
+	}
 
+	public static void printSubArrayCircular(int[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr.length; j++) {
+				System.out.print("[ ");
+				for (int k = j; k <= (i + j); k++) {
+					int index = k;
+					if (index >= arr.length) {
+						index = index % arr.length;
+					}
+					System.out.print(arr[index] + " ");
+				}
+				System.out.print("] ");
+			}
+		}
+		System.out.println();
+	}
+
+	public static void printSubArray(int[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = 0; j < arr.length; j++) {
+				if ((i + j) < arr.length) {
+					System.out.print("[ ");
+					for (int k = j; k <= (i + j); k++) {
+						System.out.print(arr[k] + " ");
+					}
+					System.out.print("] ");
+				}
+			}
+		}
+		System.out.println();
 	}
 
 	public static int longestConsecutiveSubArray(int[] arr) {

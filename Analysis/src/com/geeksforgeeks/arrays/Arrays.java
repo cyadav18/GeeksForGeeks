@@ -1,6 +1,5 @@
 package com.geeksforgeeks.arrays;
 
-
 public class Arrays {
 
 	public static void main(String[] args) {
@@ -47,13 +46,164 @@ public class Arrays {
 		printSubArray(arr);
 		arr = new int[] { 5, 10, 20, 6, 3, 8 };
 		System.out.println("maxLengthEvenOddSubbArray " + maxLengthEvenOddSubbArray(arr));
+		System.out.println("minSubArray " + minSubArray(arr));
 		arr = new int[] { -5, -2, -3, -4 };
 		System.out.println("maxSumSubarrayCircular " + maxSumSubarrayCircular(arr));
 		System.out.println("maxSumSubarrayCircularSecond " + maxSumSubarrayCircularSecond(arr));
 		System.out.println("minSubArray " + minSubArray(arr));
 		arr = new int[] { 8, 7, 6, 8, 6, 6, 6, 6 };
 		System.out.println("majorityElement " + majorityElement(arr));
+		System.out.println("majorityEfficient " + majorityEfficient(arr));
+		System.out.println("printMinimumGroupFlipsEfficient");
+		arr = new int[] { 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1 };
+		printMinimumGroupFlipsEfficient(arr);
+		arr = new int[] { 1, 8, 30, -5, 20, 7 };
+		System.out.println("maxSumSubArrayOfK " + maxSumSubArrayOfK(arr, 3));
+		System.out.println("maxSumSubArrayOfKEqualToSum " + maxSumSubArrayOfKEqualToSum(arr, 3, 32));
 
+	}
+
+	/*
+	 * arr = [1,8,30,-5,20,7] k = 3; o/p = 45; for sub array of size k , we need to
+	 * find the maximum element
+	 * 
+	 * one way is iterating each element by k further elements and returning maxsum
+	 * 
+	 * other way is sliding window technique 1+8+30 = 39 for next sub array take 39
+	 * - (1) + (-5) = 33 for next sub array take 33- (8) + + 20 = 45 so on
+	 */
+
+	public static boolean maxSumSubArrayOfKEqualToSum(int[] arr, int k, int sum) {
+		int instant_max = 0;
+		for (int i = 0; i < k; i++) {
+			instant_max = instant_max + arr[i];
+			if (instant_max == sum)
+				return true;
+		}
+		for (int i = k; i < arr.length; i++) {
+			instant_max = instant_max + arr[i] - arr[i - k];
+			if (instant_max == sum)
+				return true;
+		}
+		return false;
+	}
+
+	public static int maxSumSubArrayOfK(int[] arr, int k) {
+		int max_sum = 0;
+		int instant_max = 0;
+		for (int i = 0; i < k; i++) {
+			instant_max = instant_max + arr[i];
+		}
+		max_sum = instant_max;
+		for (int i = k; i < arr.length; i++) {
+			instant_max = instant_max + arr[i] - arr[i - k];
+			if (instant_max > max_sum)
+				max_sum = instant_max;
+		}
+		return max_sum;
+	}
+
+	/*
+	 * i/p [1,1,0,0,0,1] o/p Flip From 2 to 4
+	 * 
+	 * [1,0,0,0,1,0,0,1,1,1,1] o/p Flip from 1 to 2 Flip from 5 to 6
+	 * 
+	 * [1,1,1] o/p
+	 * 
+	 * [0,1] o/p Flip from 1 to 1 or o/p Flip for 0 to 0
+	 * 
+	 * The property which we are using in efficient algorithm is that for any given
+	 * binary number 1101100 the count of second occurrence will be equal or less
+	 * that 1st occurrence traverse and replace the second occurrence
+	 */
+	public static void printMinimumGroupFlipsEfficient(int[] arr) {
+		int first = arr[0];
+		int count = 0;
+		int from = 0;
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] != first) {
+				if (count == 0)
+					from = i;
+				count++;
+			} else {
+				if (count > 0)
+					System.out.print("From " + from + " to " + (from + count - 1) + " ");
+				count = 0;
+			}
+		}
+		if (count > 0)
+			System.out.print("From " + from + " to " + (from + count - 1) + " ");
+		System.out.println();
+	}
+
+	public static void printMinimumGroupFlips(int[] arr) {
+		int consecutiveOnes = findConsecutive(arr, 1);
+		int consecutiveZeroes = findConsecutive(arr, 0);
+		if (consecutiveZeroes <= consecutiveOnes) {
+			flipConsecutive(arr, 0);
+		} else {
+			flipConsecutive(arr, 1);
+		}
+
+	}
+
+	public static void flipConsecutive(int[] arr, int num) {
+		int count = 0;
+		int start = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] == num) {
+				if (count == 0)
+					start = i;
+				count++;
+			}
+			if (arr[i] != num && count > 0) {
+				System.out.println("From " + start + " to " + (start + count - 1));
+				count = 0;
+			}
+		}
+		if (count > 0)
+			System.out.println("From " + start + " to " + (start + count - 1));
+	}
+
+	public static int findConsecutive(int[] arr, int num) {
+		int count = 0;
+		int totalCount = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] == num) {
+				count++;
+			} else {
+				if (count > 0)
+					totalCount++;
+				count = 0;
+			}
+		}
+		if (count > 1)
+			totalCount++;
+		return totalCount;
+	}
+
+	public static int majorityEfficient(int[] arr) {
+		// Find majority
+		int result = arr[0];
+		int count = 1;
+		for (int i = 1; i < arr.length; i++) {
+			if (result == arr[i])
+				count++;
+			else
+				count--;
+			if (count == 0) {
+				result = arr[i];
+				count = 1;
+			}
+		}
+		count = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] == result)
+				count++;
+		}
+		if (count > arr.length / 2)
+			return result;
+		return -1;
 	}
 
 	public static int majorityElement(int[] arr) {
@@ -61,7 +211,7 @@ public class Arrays {
 		int majority_index = 0;
 		for (int i = 0; i < arr.length; i++) {
 			int instance_count = 0;
-			for (int j = 0; j < arr.length; j++) {
+			for (int j = i; j < arr.length; j++) {
 				if (arr[i] == arr[j])
 					instance_count++;
 			}
@@ -70,7 +220,6 @@ public class Arrays {
 				majority_index = i;
 			}
 		}
-		System.out.println(majority_index);
 		if (majority_count > arr.length / 2)
 			return arr[majority_index];
 		else

@@ -23,6 +23,10 @@ public class Recursion {
 		System.out.println(maxRopeCut(5, 2, 5, 1));
 		System.out.println(maxRopeCut(9, 2, 2, 2));
 		TowerOfHanoi(4, 'A', 'B', 'C');
+		String s1 = "ABC";
+		System.out.println(swap(s1, 1, 2));
+		permutationPrint(s1, 0);
+		System.out.println();
 	}
 
 	public static void printReverse(int n) {
@@ -190,7 +194,27 @@ public class Recursion {
 		}
 	}
 
-	public static void subsetSum(int[]arr,int count,int sum) {
-		
+	public static void subsetSum(int[] arr, int count, int sum) {
+
+	}
+
+	public static void permutationPrint(String s, int index) {
+		if (index == s.length() - 1) {
+			System.out.print(s + " ");
+		} else {
+			for (int j = index; j < s.length(); j++) {
+				s = swap(s, index, j);
+				permutationPrint(s, index + 1);
+				s = swap(s, index, j);
+			}
+		}
+	}
+
+	public static String swap(String s, int index1, int index2) {
+		StringBuilder sb = new StringBuilder(s);
+		char temp = sb.charAt(index1);
+		sb.setCharAt(index1, sb.charAt(index2));
+		sb.setCharAt(index2, temp);
+		return sb.toString();
 	}
 }
