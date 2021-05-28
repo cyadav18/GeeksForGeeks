@@ -60,7 +60,49 @@ public class Arrays {
 		arr = new int[] { 1, 8, 30, -5, 20, 7 };
 		System.out.println("maxSumSubArrayOfK " + maxSumSubArrayOfK(arr, 3));
 		System.out.println("maxSumSubArrayOfKEqualToSum " + maxSumSubArrayOfKEqualToSum(arr, 3, 32));
+		arr = new int[] { 1, 5, 20, 3, 10, 5 };
+		System.out.println("maxSumSubArrayEqualToSum " + maxSumSubArrayEqualToSum(arr, 1));
+		System.out.println("printNbonacciNumberupToM");
+		printNbonacciNumberupToM(3, 8);
 
+	}
+
+	public static void printNbonacciNumberupToM(int N, int M) {
+		int[] arr = new int[N];
+		for (int i = 0; i < (N - 1); i++) {
+			arr[i] = 0;
+			System.out.print(arr[i] + " ");
+		}
+		arr[N - 1] = 1;
+		int totalSum = 1;
+		System.out.print(totalSum + " ");
+		for (int i = N; i < M; i++) {
+			System.out.print(totalSum + " ");
+			totalSum = totalSum - arr[i % N];
+			arr[i % N] = totalSum;
+		}
+	}
+
+	public static boolean maxSumSubArrayEqualToSum(int[] arr, int sum) {
+		int instanstSum = arr[0];
+		int start = 0;
+		for (int i = 1; i < arr.length; i++) {
+
+			while (instanstSum >= sum) {
+				if (instanstSum == sum)
+					return true;
+				instanstSum = instanstSum - arr[start];
+				start++;
+			}
+			instanstSum = instanstSum + arr[i];
+		}
+		while (instanstSum >= sum) {
+			if (instanstSum == sum)
+				return true;
+			instanstSum = instanstSum - arr[start];
+			start++;
+		}
+		return false;
 	}
 
 	/*
