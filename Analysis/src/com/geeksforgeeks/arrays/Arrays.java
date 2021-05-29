@@ -63,9 +63,17 @@ public class Arrays {
 		arr = new int[] { 1, 5, 20, 3, 10, 5 };
 		System.out.println("maxSumSubArrayEqualToSum " + maxSumSubArrayEqualToSum(arr, 1));
 		System.out.println("printNbonacciNumberupToM");
-		printNbonacciNumberupToM(3, 8);
+		printNbonacciNumberupToM(4, 12);
 
 	}
+
+	/*
+	 * The idea is this we will create a simple 1st we will have a array of give
+	 * nbinocci eg:- 3 [0,0,1] we have TS of the array at any point of time :) so
+	 * for 1st we will print TS next is that when computing next sum which will be
+	 * TS+TS-element to be replaced with in the array before appending TS after
+	 * printing
+	 */
 
 	public static void printNbonacciNumberupToM(int N, int M) {
 		int[] arr = new int[N];
@@ -78,8 +86,10 @@ public class Arrays {
 		System.out.print(totalSum + " ");
 		for (int i = N; i < M; i++) {
 			System.out.print(totalSum + " ");
-			totalSum = totalSum - arr[i % N];
+			int prev = arr[i % N];
 			arr[i % N] = totalSum;
+			totalSum = totalSum + totalSum - prev;
+
 		}
 	}
 

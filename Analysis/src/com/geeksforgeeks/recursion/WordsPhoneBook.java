@@ -13,7 +13,7 @@ public class WordsPhoneBook {
 			}
 			System.out.println();
 		}
-		printWrapper("23456");
+		printWrapper("223");
 	}
 
 	public static void printWrapper(String s) {
