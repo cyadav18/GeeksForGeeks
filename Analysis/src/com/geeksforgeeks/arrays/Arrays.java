@@ -27,7 +27,7 @@ public class Arrays {
 		arr = new int[] { 10, 20, 0, 0, 30, 40, 0, 50 };
 		displayArray(arr);
 		System.out.println("move zeroes to end");
-		moveZeroesToEndSecond(arr);
+		moveZeroesToEndEfficient(arr);
 		displayArray(arr);
 		arr = new int[] { 30, 10, 8, 2 };
 		System.out.println("max difference " + findMaxDifference(arr));
@@ -40,7 +40,7 @@ public class Arrays {
 		System.out.println("max consecutive ones " + maxConsecutiveOnes(arr));
 		arr = new int[] { -5, 1, -2, 3, -1, 2, -2 };
 		System.out.println("maxSubArray " + maxSubArray(arr));
-		System.out.println("maxSubArraySecond " + maxSubArraySecond(arr));
+		System.out.println("maxSubArrayEfficient " + maxSubArrayEfficient(arr));
 		arr = new int[] { 1, 2, 3, 4 };
 		System.out.print("printSubArray ");
 		printSubArray(arr);
@@ -49,7 +49,7 @@ public class Arrays {
 		System.out.println("minSubArray " + minSubArray(arr));
 		arr = new int[] { -5, -2, -3, -4 };
 		System.out.println("maxSumSubarrayCircular " + maxSumSubarrayCircular(arr));
-		System.out.println("maxSumSubarrayCircularSecond " + maxSumSubarrayCircularSecond(arr));
+		System.out.println("maxSumSubarrayCircularEfficient " + maxSumSubarrayCircularEfficient(arr));
 		System.out.println("minSubArray " + minSubArray(arr));
 		arr = new int[] { 8, 7, 6, 8, 6, 6, 6, 6 };
 		System.out.println("majorityElement " + majorityElement(arr));
@@ -278,8 +278,8 @@ public class Arrays {
 			return -1;
 	}
 
-	public static int maxSumSubarrayCircularSecond(int[] arr) {
-		int normal_max = maxSubArraySecond(arr);
+	public static int maxSumSubarrayCircularEfficient(int[] arr) {
+		int normal_max = maxSubArrayEfficient(arr);
 		int sum_arr = arrSum(arr);
 		int min_max = minSubArray(arr);
 		int sum_circular = sum_arr - min_max;
@@ -368,7 +368,7 @@ public class Arrays {
 		return max_length;
 	}
 
-	public static int maxSubArraySecond(int[] arr) {
+	public static int maxSubArrayEfficient(int[] arr) {
 		int[] arr1 = new int[arr.length];
 		arr1[0] = arr[0];
 		for (int i = 1; i < arr.length; i++) {
@@ -525,7 +525,7 @@ public class Arrays {
 		arr[arr.length - 1] = temp;
 	}
 
-	public static void moveZeroesToEndSecond(int[] arr) {
+	public static void moveZeroesToEndEfficient(int[] arr) {
 		int prev = 0;
 		for (int i = 0; i < arr.length; i++) {
 			if (arr[i] != 0) {
