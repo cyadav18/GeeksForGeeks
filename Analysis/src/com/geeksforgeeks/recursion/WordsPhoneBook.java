@@ -1,5 +1,7 @@
 package com.geeksforgeeks.recursion;
 
+import java.util.ArrayList;
+
 public class WordsPhoneBook {
 	static char[][] arr = new char[][] { { '\0' }, { '\0' }, { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' },
 			{ 'J', 'K', 'L' }, { 'M', 'N', 'O' }, { 'P', 'Q', 'R', 'S' }, { 'T', 'U', 'V' }, { 'W', 'X', 'Y', 'Z' },
@@ -13,7 +15,8 @@ public class WordsPhoneBook {
 			}
 			System.out.println();
 		}
-		printWrapper("223");
+		printWrapper("234");
+		possibleWords(new int[] { 2, 3, 4 });
 	}
 
 	public static void printWrapper(String s) {
@@ -42,5 +45,31 @@ public class WordsPhoneBook {
 			System.out.print(s + arr[i][k] + " ");
 		}
 		System.out.println();
+	}
+
+	public static ArrayList<String> possibleWords(int[] arrNum) {
+		ArrayList<String> words = new ArrayList<String>();
+		getWords(words, arrNum, "");
+		return words;
+	}
+
+	public static void getWords(ArrayList<String> words, int[] arrNum, String current) {
+		if (current.length() == arrNum.length - 1) {
+			addToList(words, current, arrNum[current.length()]);
+			return;
+		} else {
+			int first = arrNum[current.length()];
+			for (int i = 0; i < arr[first].length; i++) {
+				current = current + arr[first][i];
+				getWords(words, arrNum, current);
+				current = current.substring(0, current.length() - 1);
+			}
+		}
+	}
+
+	public static void addToList(ArrayList<String> words, String s, int i) {
+		for (int j = 0; j < arr[i].length; j++) {
+			words.add(s + arr[i][j]);
+		}
 	}
 }

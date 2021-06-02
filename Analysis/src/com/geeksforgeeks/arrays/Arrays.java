@@ -34,8 +34,8 @@ public class Arrays {
 		arr = new int[] { 1, 1, 1, 2, 3, 3, 5, 5, 8, 8, 8, 9, 9, 10 };
 		System.out.println("printFrequencySortedArray");
 		printFrequencySortedArray(arr);
-		arr = new int[] { 1, 5, 3, 1, 2, 8 };
-		System.out.println("stock buy sell " + stockBuySell(arr));
+		arr = new int[] { 78, 25, 71, 84, 41, 9, 35, 84, 100, 31, 35, 89, 1, 93, 95, 1, 55, 50 };
+		System.out.println("stockBuySell " + stockBuySell(arr));
 		arr = new int[] { 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 };
 		System.out.println("max consecutive ones " + maxConsecutiveOnes(arr));
 		arr = new int[] { -5, 1, -2, 3, -1, 2, -2 };
@@ -44,13 +44,15 @@ public class Arrays {
 		arr = new int[] { 1, 2, 3, 4 };
 		System.out.print("printSubArray ");
 		printSubArray(arr);
-		arr = new int[] { 5, 10, 20, 6, 3, 8 };
+		arr = new int[] { 82, 11, 38, 24, 60, 35, 77, 10, 39, 20, 78, 96, 18, 87, 6, 26, 79, 22, 26, 84, 32, 94, 11, 22,
+				12, 70, 35, 77, 16, 67, 82, 89, 70, 61, 67, 17, 91, 58, 83, 76, 35, 64, 88, 77, 21, 3, 98, 5, 32, 19,
+				12, 67, 18, 47, 35, 76, 82, 67, 90, 5, 95, 7, 1, 74, 90, 1 };
 		System.out.println("maxLengthEvenOddSubbArray " + maxLengthEvenOddSubbArray(arr));
 		System.out.println("minSubArray " + minSubArray(arr));
 		arr = new int[] { -5, -2, -3, -4 };
 		System.out.println("maxSumSubarrayCircular " + maxSumSubarrayCircular(arr));
 		System.out.println("maxSumSubarrayCircularEfficient " + maxSumSubarrayCircularEfficient(arr));
-		System.out.println("minSubArray " + minSubArray(arr));
+		System.out.println("minSubArray New " + minSubArray(arr));
 		arr = new int[] { 8, 7, 6, 8, 6, 6, 6, 6 };
 		System.out.println("majorityElement " + majorityElement(arr));
 		System.out.println("majorityEfficient " + majorityEfficient(arr));
@@ -64,9 +66,81 @@ public class Arrays {
 		System.out.println("maxSumSubArrayEqualToSum " + maxSumSubArrayEqualToSum(arr, 1));
 		System.out.println("printNbonacciNumberupToM");
 		printNbonacciNumberupToM(4, 12);
+		arr = new int[] { 3, 4, 8, -9, 20, 6 };
+		System.out.println("findEqulibriumpoint " + findEqulibriumpoint(arr));
+		System.out.println("findEqulibriumpointEfficient " + findEqulibriumpointEfficient(arr));
+		arr = new int[] { 1, 3, 4, 0, 4 };
+		System.out.println(
+				"checkIfArrayCanBeDividedIntoThreeEqualParts " + checkIfArrayCanBeDividedIntoThreeEqualParts(arr));
 
 	}
 
+	public static boolean checkIfArrayCanBeDividedIntoThreeEqualParts(int[] arr) {
+		boolean divide = false;
+		int sum = 0;
+		for (int i = 0; i < arr.length; i++)
+			sum = sum + arr[i];
+		int rem = 0;
+		if (sum % 3 == 0)
+			rem = sum / 3;
+		else
+			return divide;
+		sum = 0;
+		for (int i = 0; i < arr.length; i++) {
+			sum = sum + arr[i];
+			if (arr[i] != 0 && sum % rem == 0)
+				System.out.print(i + " ");
+		}
+		System.out.println();
+		return divide;
+	}
+
+	public static boolean findEqulibriumpointEfficient(int[] arr) {
+		boolean equlibrium = false;
+		int sum = 0;
+		for (int i = 0; i < arr.length; i++)
+			sum = sum + arr[i];
+		int leftSum = 0;
+		int rightSum = sum;
+		for (int i = 0; i < arr.length; i++) {
+			if (i - 1 >= 0) {
+				leftSum = leftSum + arr[i - 1];
+			}
+			rightSum = rightSum - arr[i];
+			if (leftSum == rightSum) {
+				equlibrium = true;
+			}
+		}
+		return equlibrium;
+	}
+
+	/*
+	 * T O(n) S O(n)
+	 */
+
+	public static boolean findEqulibriumpoint(int[] arr) {
+		boolean equlibrium = false;
+		int[] prefixArray = new int[arr.length];
+		prefixArraySum(arr, prefixArray);
+		int leftSum = 0;
+		int rightSum = 0;
+		for (int i = 0; i < prefixArray.length; i++) {
+			if (i - 1 >= 0)
+				leftSum = prefixArray[i - 1];
+			rightSum = prefixArray[prefixArray.length - 1] - prefixArray[i];
+			if (leftSum == rightSum) {
+				equlibrium = true;
+			}
+		}
+		return equlibrium;
+	}
+
+	public static void prefixArraySum(int[] arr, int[] prefix) {
+		prefix[0] = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			prefix[i] = prefix[i - 1] + arr[i];
+		}
+	}
 	/*
 	 * The idea is this we will create a simple 1st we will have a array of give
 	 * nbinocci eg:- 3 [0,0,1] we have TS of the array at any point of time :) so
@@ -91,6 +165,7 @@ public class Arrays {
 			totalSum = totalSum + totalSum - prev;
 
 		}
+		System.out.println();
 	}
 
 	public static boolean maxSumSubArrayEqualToSum(int[] arr, int sum) {
@@ -438,7 +513,11 @@ public class Arrays {
 		int profit = 0;
 		int instanceProfit = 0;
 		for (int i = 1; i < arr.length; i++) {
-			if (arr[i] < buy) {
+			if (arr[i] <= buy) {
+				if (sell != 0) {
+					instanceProfit = sell - buy;
+					profit = profit + instanceProfit;
+				}
 				buy = arr[i];
 				sell = 0;
 			}
@@ -453,7 +532,8 @@ public class Arrays {
 				sell = 0;
 			}
 		}
-		profit = profit + instanceProfit;
+		if (sell != 0)
+			profit = profit + instanceProfit;
 		return profit;
 	}
 

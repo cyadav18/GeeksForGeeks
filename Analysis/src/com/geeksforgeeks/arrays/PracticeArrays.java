@@ -1,5 +1,7 @@
 package com.geeksforgeeks.arrays;
 
+import java.util.ArrayList;
+
 public class PracticeArrays {
 
 	public static void main(String[] args) {
@@ -13,7 +15,8 @@ public class PracticeArrays {
 		arr = new int[] { 10, 20, 0, 0, 0, 0, 0, 0, 0, 30, 40, 0, 0, 0, 0, 0, 0, 50 };
 		moveZeroesToEndSecond(arr);
 		displayArray(arr);
-		arr = new int[] { 16, 17, 4, 3, 5, 2 };
+		arr = new int[] { 13, 14, 3, 3, 5, 2 };
+		System.out.println("printLeaders");
 		printLeaders(arr);
 		arr = new int[] { 7, 9, 5, 6, 3, 2 };
 		System.out.println("findMaxdifference " + findMaxdifferenceSecond(arr));
@@ -25,8 +28,149 @@ public class PracticeArrays {
 		arr = new int[] { 2, 3, 4, 5, 7 };
 		System.out.println("longestConsecutiveSubArray " + longestConsecutiveSubArray(arr));
 		arr = new int[] { 1, 2, 3, 4 };
+		System.out.println("Print sub Array");
 		printSubArray(arr);
+		System.out.println("Sub Array Circular ");
 		printSubArrayCircular(arr);
+		arr = new int[] { 78, 25, 71, 84, 41, 9, 35, 84, 100, 31, 35, 89, 1, 93, 95, 1, 55, 50 };
+		System.out.println("Stock buy and share ");
+		printStockBuy(arr);
+		System.out.println("minAdjDiff ");
+		arr = new int[] { 1, 21, 5, 47, 71, 0, 36, 22, 64, 46, 18, 11, 73, 13, 57, 68, 8, 45, 99, 78, 3, 33, 17, 13, 30,
+				26 };
+		System.out.println(minAdjDiff(arr));
+		arr = new int[] { 4, 14, 43, 36, 34, 33, 27, 17 };
+		System.out.println(checkRotatedAndSorted(arr));
+	}
+
+	public static boolean checkRotatedAndSorted(int arr[]) {
+
+		int indexMin = 0;
+		int indexMax = 0;
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] < arr[indexMin]) {
+				indexMin = i;
+			}
+			if (arr[i] > arr[indexMax]) {
+				indexMax = i;
+			}
+		}
+
+		boolean increasing = true;
+		int current_index_min = indexMin;
+		int prev = arr[current_index_min];
+		for (int j = 1; j < arr.length; j++) {
+			current_index_min = current_index_min + 1;
+			current_index_min = current_index_min % arr.length;
+			if (arr[current_index_min] < prev) {
+				increasing = false;
+				break;
+			}
+			prev = arr[current_index_min];
+		}
+		if (increasing && indexMin != 0)
+			return increasing;
+
+		boolean decreasing = true;
+		int current_index_max = indexMax;
+		prev = arr[current_index_max];
+		for (int j = 1; j < arr.length; j++) {
+			current_index_max = current_index_max + 1;
+			current_index_max = current_index_max % arr.length;
+			if (arr[current_index_max] > prev) {
+				decreasing = false;
+				break;
+			}
+			prev = arr[current_index_max];
+		}
+		if (decreasing && indexMax != 0)
+			return decreasing;
+
+		return false;
+
+	}
+
+	/*
+	 * Given an array Arr of n integers arranged in a circular fashion. Your task is
+	 * to find the minimum absolute difference between adjacent elements.
+	 */
+	public static int minAdjDiff(int arr[]) {
+		int min = Integer.MAX_VALUE;
+		int prev = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			int dif = arr[i] - prev;
+			dif = Math.abs(dif);
+			if (dif < min)
+				min = dif;
+			prev = arr[i];
+		}
+		return min;
+	}
+
+	/*
+	 * The cost of stock on each day is given in an array A[] of size N. Find all
+	 * the days on which you buy and sell the stock so that in between those days
+	 * your profit is maximum.
+	 * 
+	 * Input: N = 7 A[] = {100,180,260,310,40,535,695} Output: 1 Explanation: One
+	 * possible solution is (0 3) (4 6) We can buy stock on day 0, and sell it on
+	 * 3rd day, which will give us maximum profit. Now, we buy stock on day 4 and
+	 * sell it on day 6.
+	 */
+
+	public static void printStockBuy(int[] arr) {
+		ArrayList<ArrayList<Integer>> outer = stockBuySell(arr);
+		System.out.println(outer);
+
+	}
+
+//{100,180,260,310,40,535,695}
+	public static ArrayList<ArrayList<Integer>> stockBuySell(int[] arr) {
+		ArrayList<ArrayList<Integer>> outer = new ArrayList<ArrayList<Integer>>();
+		int buy = arr[0];
+		int sell = 0;
+		int totalProfit = 0;
+		int instantProfit = 0;
+		int buyindex = 0;
+		int sellindex = 0;
+		ArrayList<Integer> inner = new ArrayList<Integer>();
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] <= buy) {
+				if (sell != 0) {
+					instantProfit = sell - buy;
+					inner.add(buyindex);
+					inner.add(sellindex);
+					outer.add(inner);
+					inner = new ArrayList<Integer>();
+					totalProfit = totalProfit + instantProfit;
+				}
+				buy = arr[i];
+				buyindex = i;
+				sell = 0;
+			}
+			if (arr[i] > buy && arr[i] > sell) {
+				sell = arr[i];
+				sellindex = i;
+				instantProfit = sell - buy;
+			}
+			if (arr[i] > buy && arr[i] < sell) {
+				inner.add(buyindex);
+				inner.add(sellindex);
+				outer.add(inner);
+				inner = new ArrayList<Integer>();
+				totalProfit = totalProfit + instantProfit;
+				buy = arr[i];
+				buyindex = i;
+				sell = 0;
+			}
+		}
+		if (sell != 0) {
+			inner.add(buyindex);
+			inner.add(sellindex);
+			totalProfit = totalProfit + instantProfit;
+			outer.add(inner);
+		}
+		return outer;
 	}
 
 	public static void printSubArrayCircular(int[] arr) {
