@@ -1,22 +1,20 @@
 package com.geeksforgeeks.recursion;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class WordsPhoneBook {
 	static char[][] arr = new char[][] { { '\0' }, { '\0' }, { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' },
 			{ 'J', 'K', 'L' }, { 'M', 'N', 'O' }, { 'P', 'Q', 'R', 'S' }, { 'T', 'U', 'V' }, { 'W', 'X', 'Y', 'Z' },
 			{ '*' }, { '#' } };
+	static int count = 0;
 
 	public static void main(String[] args) {
 
-		for (int i = 0; i < arr.length; i++) {
-			for (int j = 0; j < arr[i].length; j++) {
-				System.out.print(arr[i][j] + " ");
-			}
-			System.out.println();
-		}
 		printWrapper("234");
-		possibleWords(new int[] { 2, 3, 4 });
+		System.out.println();
+		System.out.println(possibleWords(new int[] { 2, 3, 4 }));
 	}
 
 	public static void printWrapper(String s) {

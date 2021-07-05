@@ -41,6 +41,21 @@ public class PracticeArrays {
 		System.out.println(minAdjDiff(arr));
 		arr = new int[] { 4, 14, 43, 36, 34, 33, 27, 17 };
 		System.out.println(checkRotatedAndSorted(arr));
+		arr = new int[] { 1, 2, 3, 4, 5 };
+		convertToWave(arr);
+		displayArray(arr);
+	}
+
+	public static void convertToWave(int arr[]) {
+
+		if (arr.length < 1)
+			return;
+		for (int i = 1; i < arr.length; i = i + 2) {
+			int prev = arr[i - 1];
+			arr[i - 1] = arr[i];
+			arr[i] = prev;
+		}
+
 	}
 
 	public static boolean checkRotatedAndSorted(int arr[]) {
@@ -171,6 +186,42 @@ public class PracticeArrays {
 			outer.add(inner);
 		}
 		return outer;
+
+//		ArrayList<ArrayList<Integer>> outer = new ArrayList<ArrayList<Integer>>();
+//		int buy = arr[0];
+//		ArrayList<Integer> inner = new ArrayList<Integer>();
+//		int buy_index = 0;
+//		inner.add(buy_index);
+//		int sell = 0;
+//		int sell_index = 0;
+//		int instant_profit = 0;
+//		for (int i = 1; i < arr.length; i++) {
+//			if (arr[i] > buy && arr[i] > sell) {
+//				sell = arr[i];
+//				int profit = sell - buy;
+//				if (profit > instant_profit) {
+//					instant_profit = profit;
+//					sell_index = i;
+//				}
+//			}
+//			if (arr[i] <= buy || (arr[i] > buy && arr[i] < sell)) {
+//				if (sell != 0) {
+//					inner.add(sell_index);
+//					outer.add(inner);
+//				}
+//				inner = new ArrayList<Integer>();
+//				instant_profit = 0;
+//				buy = arr[i];
+//				inner.add(i);
+//				sell = 0;
+//			}
+//		}
+//		if (sell != 0) {
+//			inner.add(sell_index);
+//			outer.add(inner);
+//		}
+//		System.out.println(outer);
+//		return outer;
 	}
 
 	public static void printSubArrayCircular(int[] arr) {

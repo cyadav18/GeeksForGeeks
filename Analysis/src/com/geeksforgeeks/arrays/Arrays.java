@@ -1,5 +1,7 @@
 package com.geeksforgeeks.arrays;
 
+import java.util.ArrayList;
+
 public class Arrays {
 
 	public static void main(String[] args) {
@@ -35,6 +37,7 @@ public class Arrays {
 		System.out.println("printFrequencySortedArray");
 		printFrequencySortedArray(arr);
 		arr = new int[] { 78, 25, 71, 84, 41, 9, 35, 84, 100, 31, 35, 89, 1, 93, 95, 1, 55, 50 };
+		arr = new int[] { 100, 180, 260, 310, 40, 535, 695 };
 		System.out.println("stockBuySell " + stockBuySell(arr));
 		arr = new int[] { 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0 };
 		System.out.println("max consecutive ones " + maxConsecutiveOnes(arr));
@@ -72,7 +75,119 @@ public class Arrays {
 		arr = new int[] { 1, 3, 4, 0, 4 };
 		System.out.println(
 				"checkIfArrayCanBeDividedIntoThreeEqualParts " + checkIfArrayCanBeDividedIntoThreeEqualParts(arr));
+		arr = new int[] { 78, 25, 71, 84, 41, 9, 35, 84, 100, 31, 35, 89, 1, 93, 95, 1, 55, 50 };
+//		arr = new int[] { 100, 180, 260, 310, 40, 535, 695 };
+		System.out.println("stockBuySell " + stockBuySell(arr));
+		System.out.println("stockBuySell " + printMaxProfit(arr));
+		arr = new int[] { 0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1 };
+		System.out.println("trappingRainWater " + trappingRainWater(arr));
+		System.out.println("trappingRainWaterEfficient " + trappingRainWaterEfficient(arr));
+	}
 
+	/*
+	 * Given n non-negative integers representing an elevation map where the width
+	 * of each bar is 1, compute how much water it is able to trap after raining.
+	 * 
+	 * Examples:
+	 * 
+	 * Input: arr[] = {2, 0, 2} Output: 2 Input: arr[] = {3, 0, 2, 0, 4} Output: 7
+	 *
+	 * T = O(n) M = O(n)
+	 */
+	public static int trappingRainWaterEfficient(int[] arr) {
+		int quantity = 0;
+		int[] lmax = new int[arr.length];
+		int[] rmax = new int[arr.length];
+		lmax[0] = arr[0];
+		int max = arr[0];
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] > max) {
+				lmax[i] = arr[i];
+				max = arr[i];
+			} else {
+				lmax[i] = max;
+			}
+
+		}
+		max = arr[arr.length - 1];
+		rmax[rmax.length - 1] = arr[arr.length - 1];
+		for (int i = arr.length - 2; i >= 0; i--) {
+			if (arr[i] > max) {
+				rmax[i] = arr[i];
+				max = arr[i];
+			} else {
+				rmax[i] = max;
+			}
+		}
+		for (int i = 1; i < arr.length - 1; i++) {
+			quantity = quantity + Math.min(lmax[i], rmax[i]) - arr[i];
+		}
+		return quantity;
+	}
+
+	/*
+	 * O(n^2)
+	 */
+	public static int trappingRainWater(int[] arr) {
+		int quantity = 0;
+		for (int i = 1; i < arr.length - 1; i++) {
+
+			int lmax = arr[i];
+			for (int j = 0; j < i; j++) {
+				if (arr[j] > lmax)
+					lmax = arr[j];
+			}
+
+			int rmax = arr[i];
+			for (int j = i + 1; j < arr.length; j++) {
+				if (arr[j] > rmax)
+					rmax = arr[j];
+			}
+
+			quantity = quantity + Math.min(lmax, rmax) - arr[i];
+		}
+		return quantity;
+	}
+
+	public static int printMaxProfit(int[] arr) {
+		int buy = arr[0];
+		int sell = 0;
+		int total_profit = 0;
+		int instant_profit = 0;
+		int buy_index = 0;
+		int sell_index = 0;
+		ArrayList<Integer> inner = new ArrayList<Integer>();
+		inner.add(buy_index);
+		ArrayList<ArrayList<Integer>> outer = new ArrayList<ArrayList<Integer>>();
+		for (int i = 1; i < arr.length; i++) {
+			if (arr[i] > buy && arr[i] > sell) {
+				sell = arr[i];
+				int profit = sell - buy;
+				if (profit > instant_profit) {
+					sell_index = i;
+					instant_profit = profit;
+				}
+			}
+			if (arr[i] <= buy || (arr[i] > buy && arr[i] < sell)) {
+				total_profit = total_profit + instant_profit;
+				if (sell != 0) {
+					inner.add(sell_index);
+					outer.add(inner);
+				}
+				inner = new ArrayList<Integer>();
+				instant_profit = 0;
+				buy = arr[i];
+				inner.add(i);
+				sell = 0;
+			}
+		}
+		if (sell != 0) {
+			total_profit = total_profit + instant_profit;
+			inner.add(sell_index);
+			outer.add(inner);
+		}
+		System.out.println(outer);
+		return total_profit;
 	}
 
 	public static boolean checkIfArrayCanBeDividedIntoThreeEqualParts(int[] arr) {

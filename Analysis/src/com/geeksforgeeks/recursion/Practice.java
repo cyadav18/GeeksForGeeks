@@ -14,12 +14,44 @@ public class Practice {
 		System.out.println(checkPalindromeString("aba"));
 		System.out.println(countSumOfDigits(123));
 		System.out.println(maxCutRope(3, 1, 2, 2));
-//		ArrayList<Integer> arr = new ArrayList<Integer>();
-//		arr.add(2);
-//		System.out.println(arr.size());
-		printSubString("ABC","",0);
+		printSubString("ABC", "", 0);
 		System.out.println("\nDone");
-		
+		int[] arr = { 5, 15, 10, 10, 15 };
+		System.out.println(subStringSum(arr, 25, 0));
+		printPermutation("ABCDE", 0);
+	}
+
+	public static void printPermutation(String string, int i) {
+		if (i == string.length() - 1) {
+			System.out.print(string + " ");
+			return;
+		} else {
+			for (int j = i; j < string.length(); j++) {
+				string = swap(string, i, j);
+				printPermutation(string, i + 1);
+				string = swap(string, i, j);
+			}
+		}
+	}
+
+	public static String swap(String string, int i, int j) {
+		StringBuilder sb = new StringBuilder(string);
+		char temp = sb.charAt(i);
+		sb.setCharAt(i, sb.charAt(j));
+		sb.setCharAt(j, temp);
+		return sb.toString();
+	}
+
+	public static int subStringSum(int[] arr, int sum, int i) {
+		if (sum == 0)
+			return 1;
+		else if (i > arr.length - 1 || sum < 0)
+			return 0;
+		else {
+			int left = subStringSum(arr, sum, i + 1);
+			int right = subStringSum(arr, sum - arr[i], i + 1);
+			return left + right;
+		}
 	}
 
 	public static int fibonacci(int n) {
@@ -81,11 +113,11 @@ public class Practice {
 
 	public static void printSubString(String string, String current, int index) {
 		if (string.length() == index) {
-			System.out.print(current+" ");
+			System.out.print(current + " ");
 			return;
 		} else {
 			printSubString(string, current, index + 1);
-			printSubString(string, current+string.charAt(index), index + 1);
+			printSubString(string, current + string.charAt(index), index + 1);
 		}
 	}
 

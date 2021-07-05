@@ -29,6 +29,9 @@ public class Bitwise {
 		String s = "abcd";
 		subsetOfString(s);
 		System.out.println(countTotalSetBitUpTo(17));
+		arr = new int[] { 1, 2, 2, 4, 5 };
+//		arr = new int[] { 1, 2, 3, 3 };
+		printTwoElements(arr);
 	}
 
 	public static boolean checkKthBit(int n, int k) {
@@ -160,5 +163,51 @@ public class Bitwise {
 			i++;
 		}
 		return count;
+	}
+
+	/*
+	 * Given an unsorted array of size n. Array elements are in the range from 1 to
+	 * n. One number from set {1, 2, …n} is missing and one number occurs twice in
+	 * the array. Find these two numbers.
+	 */
+	public static void printTwoElements(int[] arr) {
+		int arr_sum = 0;
+		int xor = 0;
+		for (int i = 0; i < arr.length; i++) {
+			xor = (xor ^ arr[i]);
+			arr_sum = arr_sum + arr[i];
+		}
+		for (int i = 1; i <= arr.length; i++) {
+			xor = xor ^ i;
+		}
+		int setbit = xor & ~(xor - 1);
+		int result1 = 0;
+		int result2 = 0;
+		for (int i = 0; i < arr.length; i++) {
+			if ((setbit & arr[i]) > 0) {
+				result1 = (result1 ^ arr[i]);
+			} else {
+				result2 = (result2 ^ arr[i]);
+			}
+		}
+		for (int i = 1; i <= arr.length; i++) {
+			if ((setbit & i) > 0) {
+				result1 = (result1 ^ i);
+			} else {
+				result2 = (result2 ^ i);
+			}
+		}
+		int total_sum = arr.length * (arr.length + 1) / 2;
+		int dif = total_sum - arr_sum;
+		int missing = 0;
+		int repeted = 0;
+		if (dif >= 0) {
+			missing = result2;
+			repeted = result1;
+		} else {
+			missing = result1;
+			repeted = result2;
+		}
+		System.out.println(repeted + " " + missing);
 	}
 }

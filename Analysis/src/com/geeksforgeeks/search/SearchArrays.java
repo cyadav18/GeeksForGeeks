@@ -25,12 +25,38 @@ public class SearchArrays {
 		arr = new int[] { 2, 4, 8, 9, 11, 12, 20, 30 };
 		System.out.println("findAPairwithGivenSumSortedArray " + findAPairwithGivenSumSortedArray(arr, 23));
 
+		System.out.println("findATripletWithGivenSum " + findATripletWithGivenSum(arr, 32));
+
+	}
+
+	public static boolean findATripletWithGivenSum(int[] arr, int sum) {
+		for (int i = 0; i < arr.length; i++) {
+			boolean isPresent = findAPairWithGivenSumBetweenIndexes(arr, sum - arr[i], i + 1, arr.length - 1);
+			if (isPresent)
+				return isPresent;
+		}
+		return false;
+	}
+
+	public static boolean findAPairWithGivenSumBetweenIndexes(int[] arr, int sum, int low, int high) {
+		while (low < high) {
+			int instantSum = arr[low] + arr[high];
+			if (instantSum == sum) {
+				return true;
+			}
+			if (instantSum > sum) {
+				high--;
+			} else {
+				low++;
+			}
+		}
+		return false;
 	}
 
 	public static boolean findAPairwithGivenSumSortedArray(int[] arr, int sum) {
 		int low = 0;
 		int high = arr.length - 1;
-		while (low <= high) {
+		while (low < high) {
 			int instantSum = arr[low] + arr[high];
 			if (instantSum == sum)
 				return true;

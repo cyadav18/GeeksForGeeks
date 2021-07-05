@@ -1,5 +1,7 @@
 package com.geeksforgeeks.recursion;
 
+import java.util.ArrayList;
+
 public class Recursion {
 	public static void main(String[] args) {
 		System.out.println("Recursion");
@@ -26,7 +28,47 @@ public class Recursion {
 		String s1 = "ABC";
 		System.out.println(swap(s1, 1, 2));
 		permutationPrint(s1, 0);
-		System.out.println();
+		System.out.println("\n" + isLucky(19));
+		System.out.println(josephusEfficient(200, 3)+1);
+	}
+
+	public static int josephusEfficient(int n, int k) {
+		if (n == 1)
+			return 0;
+		else {
+			return (josephusEfficient(n - 1, k) + k) % n;
+		}
+	}
+
+	public static int josephus(int n, int k) {
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		for (int i = 1; i <= n; i++) {
+			al.add(i);
+		}
+		int i = k - 1;
+		while (al.size() != 1) {
+			if (i >= al.size())
+				i = i % al.size();
+			al.remove(i);
+			i = i + k - 1;
+		}
+		return al.get(0);
+	}
+
+	public static boolean isLucky(int n) {
+		return isLuckyNumber(n, 2, n);
+	}
+
+	public static boolean isLuckyNumber(int n, int iteration, int pos) {
+		if (pos < iteration) {
+			return true;
+		}
+		if (pos % iteration == 0) {
+			return false;
+		} else {
+			pos = pos - (pos / iteration);
+			return isLuckyNumber(n, iteration + 1, pos);
+		}
 	}
 
 	public static void printReverse(int n) {
