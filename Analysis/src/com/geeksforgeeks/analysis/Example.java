@@ -6,7 +6,7 @@ public class Example {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		int n = 1234;
+//		int n = 1234;
 //		System.out.println(countDigits(n));
 //		System.out.println(recursiveCountDigits(n));
 //		System.out.println(checkPalindrome(123213));

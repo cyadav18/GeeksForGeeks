@@ -7,6 +7,7 @@ public class ContestEnt {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		@SuppressWarnings("resource")
 		Scanner sarray = new Scanner(System.in);
 
 		int T = sc.nextInt();

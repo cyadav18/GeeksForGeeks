@@ -1,6 +1,9 @@
 package com.geeksforgeeks.sorting;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Basics {
 
@@ -14,7 +17,41 @@ public class Basics {
 				new Student(7, "A"), new Student(4, "C") };
 		Arrays.sort(arr1);
 		System.out.println(Arrays.deepToString(arr1));
+		//https://onlinemathtools.com/generate-random-matrix
+		int[][] temp = { { 1, 7 }, { 4, 10 }, { 1, 8 }, { 2, 5 }, { 8, 10 }, { 3, 7 } };
+		merge(temp);
 
+
+	}
+
+	public static void merge(int[][] intervals) {
+		ArrayList<ArrayList<Integer>> arr = new ArrayList<ArrayList<Integer>>();
+		for (int i = 0; i < intervals.length; i++) {
+			ArrayList<Integer> inner = new ArrayList<Integer>();
+			for (int j = 0; j < intervals[i].length; j++) {
+				inner.add(intervals[i][j]);
+			}
+			arr.add(inner);
+		}
+		System.out.println(arr);
+		Collections.sort(arr, new Comparator<ArrayList<Integer>>() {
+			public int compare(ArrayList<Integer> a1, ArrayList<Integer> a2) {
+				return a1.get(0) - a2.get(0);
+			}
+		});
+		System.out.println(arr);
+		ArrayList<Integer> prev = arr.get(0);
+		for (int i = 1; i < arr.size(); i++) {
+			ArrayList<Integer> current = arr.get(i);
+			if (prev.get(1) >= current.get(0)) {
+				prev.set(1, Math.max(prev.get(1), current.get(1)));
+				arr.remove(i);
+				i = i - 1;
+			} else {
+				prev = arr.get(i);
+			}
+		}
+		System.out.println(arr);
 	}
 }
 

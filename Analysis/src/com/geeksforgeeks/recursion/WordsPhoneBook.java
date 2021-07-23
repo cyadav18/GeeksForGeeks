@@ -1,8 +1,6 @@
 package com.geeksforgeeks.recursion;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public class WordsPhoneBook {
 	static char[][] arr = new char[][] { { '\0' }, { '\0' }, { 'A', 'B', 'C' }, { 'D', 'E', 'F' }, { 'G', 'H', 'I' },

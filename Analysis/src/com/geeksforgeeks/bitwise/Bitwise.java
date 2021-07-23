@@ -29,7 +29,7 @@ public class Bitwise {
 		String s = "abcd";
 		subsetOfString(s);
 		System.out.println(countTotalSetBitUpTo(17));
-		arr = new int[] { 1, 2, 2, 4, 5 };
+		arr = new int[] { 1, 2, 6, 4, 5, 6 };
 //		arr = new int[] { 1, 2, 3, 3 };
 		printTwoElements(arr);
 	}
@@ -201,13 +201,17 @@ public class Bitwise {
 		int dif = total_sum - arr_sum;
 		int missing = 0;
 		int repeted = 0;
-		if (dif >= 0) {
+		if (dif < 0)
+			dif = dif * -1;
+		if (result1 == result2 + dif) {
 			missing = result2;
 			repeted = result1;
-		} else {
+		} else if (result2 == result1 + dif) {
 			missing = result1;
 			repeted = result2;
 		}
+		missing = result1;
+		repeted = result2;
 		System.out.println(repeted + " " + missing);
 	}
 }
