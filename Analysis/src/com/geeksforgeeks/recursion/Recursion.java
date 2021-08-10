@@ -211,7 +211,7 @@ public class Recursion {
 	}
 
 	public static void subSequence(String s) {
-		generateSubset("ABC", "", 0);
+		generateSubset(s, "", 0);
 	}
 
 	// subset and subsequence are same;
